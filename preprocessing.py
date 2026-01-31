@@ -2,8 +2,8 @@ import pandas as pd
 import os
 import re
 
-RAW_PATH = "data/raw/real_estate.csv"
-PROCESSED_PATH = "data/processed/clean_data.csv"
+RAW_PATH = "real_estate.csv"
+PROCESSED_PATH = "clean_data.csv"
 
 def clean_text(text):
     text = text.lower()
