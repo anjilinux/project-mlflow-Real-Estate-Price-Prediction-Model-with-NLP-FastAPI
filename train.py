@@ -2,7 +2,7 @@ import mlflow
 import mlflow.sklearn
 from xgboost import XGBRegressor
 
-mlflow.set_tracking_uri("http://localhost:5000")
+mlflow.set_tracking_uri("http://localhost:5555")
 mlflow.set_experiment("RealEstatePriceNLP")
 
 with mlflow.start_run():
