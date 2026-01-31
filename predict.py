@@ -1,19 +1,22 @@
-# predict_pipeline.py
-import joblib
 import pandas as pd
+import joblib
 
 PIPELINE_PATH = "model_pipeline.pkl"
 
+def load_pipeline():
+    return joblib.load(PIPELINE_PATH)
+
 def predict_price(area, bhk, bath, description):
-    pipeline = joblib.load(PIPELINE_PATH)
-    df_input = pd.DataFrame([{
+    pipeline = load_pipeline()
+    sample_df = pd.DataFrame([{
+        "description": description,
         "area": area,
         "bhk": bhk,
-        "bath": bath,
-        "description": description
+        "bath": bath
     }])
-    price = pipeline.predict(df_input)[0]
+    price = pipeline.predict(sample_df)[0]
     return float(price)
+
 
 if __name__ == "__main__":
     sample_input = {
