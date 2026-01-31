@@ -202,15 +202,50 @@ stage("FastAPI API Test") {
 stage("Docker Build & Run") {
     steps {
         sh '''
-        docker build -t real-estate-api1 .
-        CONTAINER_ID=$(docker run -d -p 8006:8005 real-estate-api1)
-        echo "Container started: $CONTAINER_ID"
-        sleep 15
-        curl -sf http://localhost:8006/health || true
+        set -e
 
+        # Build Docker image
+        docker build -t real-estate-api1 .
+
+        # Remove old container if exists
+        docker rm -f real-estate-api1 || true
+
+        # Pick a random free host port between 8000-8999
+        HOST_PORT=$(shuf -i 8000-8999 -n 1)
+        echo "🚀 Running API on host port $HOST_PORT"
+
+        # Run container mapping random host port to container port 8005
+        CONTAINER_ID=$(docker run -d -p $HOST_PORT:8005 --name real-estate-api1 real-estate-api1)
+
+        # Wait for the API to start
+        sleep 10
+
+        # Health check
+        curl -sf http://localhost:$HOST_PORT/health || {
+            echo "❌ API health check failed"
+            docker logs $CONTAINER_ID
+            exit 1
+        }
+
+        # Optionally, test prediction endpoint
+        RESPONSE=$(curl -s -X POST http://localhost:$HOST_PORT/predict \
+          -H "Content-Type: application/json" \
+          -d '{
+                "area": 1200,
+                "bhk": 2,
+                "bath": 2,
+                "description": "luxury apartment near metro"
+              }') || true
+
+        echo "API Response: $RESPONSE"
+
+        # Stop and remove container after test
+        docker stop $CONTAINER_ID
+        docker rm $CONTAINER_ID
         '''
     }
 }
+
     //  #        docker stop $CONTAINER_ID
     //    # docker rm $CONTAINER_ID
 
