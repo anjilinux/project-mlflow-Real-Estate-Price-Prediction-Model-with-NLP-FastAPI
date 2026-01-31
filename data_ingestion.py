@@ -2,7 +2,7 @@ import pandas as pd
 import os
 from datetime import datetime
 
-RAW_DATA_PATH = "data/raw/real_estate.csv"
+RAW_DATA_PATH = "real_estate.csv"
 
 REQUIRED_COLUMNS = [
     "price", "area", "bhk", "bath", "location", "description"
@@ -34,5 +34,5 @@ def ingest_data(source_path: str):
 
 if __name__ == "__main__":
     # Example usage (local file ingestion)
-    SOURCE_PATH = "data/source/real_estate_source.csv"
+    SOURCE_PATH = "real_estate_source.csv"
     ingest_data(SOURCE_PATH)

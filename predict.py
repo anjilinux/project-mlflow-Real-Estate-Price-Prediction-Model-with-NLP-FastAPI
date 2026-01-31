@@ -2,8 +2,8 @@ import pickle
 import numpy as np
 from scipy.sparse import hstack
 
-MODEL_PATH = "artifacts/model.pkl"
-VECTORIZER_PATH = "artifacts/features/vectorizer.pkl"
+MODEL_PATH = "model.pkl"
+VECTORIZER_PATH = "vectorizer.pkl"
 
 def load_artifacts():
     with open(MODEL_PATH, "rb") as f:

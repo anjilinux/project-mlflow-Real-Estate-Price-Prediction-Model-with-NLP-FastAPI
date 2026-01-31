@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.sparse import hstack
 import mlflow
 
-CLEAN_DATA_PATH = "data/processed/clean_data.csv"
+CLEAN_DATA_PATH = "clean_data.csv"
 FEATURE_DIR = "artifacts/features"
 
 def perform_eda(df: pd.DataFrame):
