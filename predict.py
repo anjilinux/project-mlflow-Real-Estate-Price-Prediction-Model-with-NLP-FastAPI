@@ -3,7 +3,7 @@ import numpy as np
 from scipy.sparse import hstack
 
 MODEL_PATH = "model.pkl"
-VECTORIZER_PATH = "vectorizer.pkl"
+VECTORIZER_PATH = "tfidf.pkl"  # fixed path
 
 def load_artifacts():
     with open(MODEL_PATH, "rb") as f:
