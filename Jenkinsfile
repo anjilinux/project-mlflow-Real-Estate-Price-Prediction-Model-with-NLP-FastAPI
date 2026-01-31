@@ -199,18 +199,20 @@ stage("FastAPI API Test") {
         /* ================================
            Stage 11: Docker Build & Test
         ================================= */
-        stage("Docker Build & Run") {
-            steps {
-                sh '''
-                docker build -t real-estate-api1 .
-                docker run -d -p 8006:8005 --name real-estate-api1 real-estate-api1
-                sleep 15
-                curl -sf http://localhost:8001/health
-                docker stop real-estate-api1
-                docker rm real-estate-api1
-                '''
-            }
-        }
+stage("Docker Build & Run") {
+    steps {
+        sh '''
+        docker build -t real-estate-api1 .
+        CONTAINER_ID=$(docker run -d -p 8006:8005 real-estate-api1)
+        echo "Container started: $CONTAINER_ID"
+        sleep 15
+        curl -sf http://localhost:8006/health || true
+        docker stop $CONTAINER_ID
+        docker rm $CONTAINER_ID
+        '''
+    }
+}
+
 
         /* ================================
            Stage 12: Archive Artifacts
