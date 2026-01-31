@@ -1,0 +1,27 @@
+# Core
+numpy
+pandas
+scipy
+
+# Machine Learning
+scikit-learn
+xgboost
+
+# NLP
+nltk
+
+# Experiment Tracking
+mlflow
+
+# API
+fastapi
+uvicorn
+
+# Testing
+pytest
+
+# Monitoring (optional but recommended)
+prometheus-client
+
+# Serialization
+joblib
