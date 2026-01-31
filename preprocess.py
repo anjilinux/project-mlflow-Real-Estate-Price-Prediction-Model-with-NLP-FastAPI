@@ -33,7 +33,7 @@ def preprocess():
     # One-hot encode location
     df = pd.get_dummies(df, columns=["location"], drop_first=True)
 
-    os.makedirs("data/processed", exist_ok=True)
+    os.makedirs("processed", exist_ok=True)
     df.to_csv(PROCESSED_DATA_PATH, index=False)
 
     print(f"✅ Clean data saved to {PROCESSED_DATA_PATH}")
