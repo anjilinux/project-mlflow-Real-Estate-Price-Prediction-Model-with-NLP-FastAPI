@@ -202,12 +202,12 @@ stage("FastAPI API Test") {
         stage("Docker Build & Run") {
             steps {
                 sh '''
-                docker build -t real-estate-api .
-                docker run -d -p 8006:8005 --name real-estate-api real-estate-api
+                docker build -t real-estate-api1 .
+                docker run -d -p 8006:8005 --name real-estate-api1 real-estate-api1
                 sleep 15
                 curl -sf http://localhost:8001/health
-                docker stop real-estate-api
-                docker rm real-estate-api
+                docker stop real-estate-api1
+                docker rm real-estate-api1
                 '''
             }
         }
