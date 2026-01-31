@@ -207,12 +207,12 @@ stage("Docker Build & Run") {
         echo "Container started: $CONTAINER_ID"
         sleep 15
         curl -sf http://localhost:8006/health || true
-        docker stop $CONTAINER_ID
-        docker rm $CONTAINER_ID
+
         '''
     }
 }
-
+    //  #        docker stop $CONTAINER_ID
+    //    # docker rm $CONTAINER_ID
 
         /* ================================
            Stage 12: Archive Artifacts
