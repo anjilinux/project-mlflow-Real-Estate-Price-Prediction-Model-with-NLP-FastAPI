@@ -1,5 +1,8 @@
+import os
 import pandas as pd
 import joblib
+import numpy as np
+from sklearn.metrics import mean_squared_error, r2_score
 
 PIPELINE_PATH = "model_pipeline.pkl"
 DATA_PATH = "clean_data.csv"
@@ -18,9 +21,6 @@ def evaluate():
 
     # Pass raw DataFrame directly
     y_pred = pipeline.predict(df)
-
-    from sklearn.metrics import mean_squared_error, r2_score
-    import numpy as np
 
     rmse = np.sqrt(mean_squared_error(y, y_pred))
     r2 = r2_score(y, y_pred)
