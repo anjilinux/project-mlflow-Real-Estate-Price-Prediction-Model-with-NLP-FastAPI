@@ -117,36 +117,32 @@ pipeline {
                 '''
             }
         }
+
+
 stage("FastAPI API Test") {
     steps {
-        script {
-            try {
-                sh """
-                set -e
-                . $VENV_NAME/bin/activate
+        sh '''
+        set -e
+        . $VENV_NAME/bin/activate
 
-                nohup uvicorn src.api.main:app --host 0.0.0.0 --port $API_PORT > api.log 2>&1 &
-                API_PID=\\$!
-                sleep 10
+        nohup uvicorn src.api.main:app --host 0.0.0.0 --port $API_PORT > api.log 2>&1 &
+        API_PID=$!
+        sleep 10
 
-                curl -sf http://localhost:$API_PORT/health
+        curl -sf http://localhost:$API_PORT/health
 
-                RESPONSE=\$(curl -s -X POST http://localhost:$API_PORT/predict \
-                  -H "Content-Type: application/json" \
-                  -d '{
-                        "area": 1200,
-                        "bhk": 2,
-                        "bath": 2,
-                        "description": "luxury apartment near metro"
-                      }')
+        RESPONSE=$(curl -s -X POST http://localhost:$API_PORT/predict \
+          -H "Content-Type: application/json" \
+          -d '{
+                "area": 1200,
+                "bhk": 2,
+                "bath": 2,
+                "description": "luxury apartment near metro"
+              }')
 
-                echo "API Response: \$RESPONSE"
-                kill -9 \$API_PID
-                """
-            } catch (err) {
-                echo "⚠ FastAPI Test Failed: ${err}"
-            }
-        }
+        echo "API Response: $RESPONSE"
+        kill -9 $API_PID
+        '''
     }
 }
 
