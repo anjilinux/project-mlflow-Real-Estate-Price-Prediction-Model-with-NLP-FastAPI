@@ -126,7 +126,7 @@ stage("FastAPI API Test") {
         . $VENV_NAME/bin/activate
 
         # Start FastAPI in background
-        nohup uvicorn src.api.main:app --host 0.0.0.0 --port $API_PORT > api.log 2>&1 &
+        nohup uvicorn main:app --host 0.0.0.0 --port $API_PORT > api.log 2>&1 &
         API_PID=$!
         sleep 10
 
