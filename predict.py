@@ -1,25 +1,19 @@
-import pickle
+# predict_pipeline.py
 import joblib
-import numpy as np
-from scipy.sparse import hstack
+import pandas as pd
 
-MODEL_PATH = "model.pkl"
-VECTORIZER_PATH = "tfidf.pkl"
-
-def load_artifacts():
-    # Load model
-    with open(MODEL_PATH, "rb") as f:
-        model = pickle.load(f)
-    # Load TF-IDF
-    vectorizer = joblib.load(VECTORIZER_PATH)
-    return model, vectorizer
+PIPELINE_PATH = "model_pipeline.pkl"
 
 def predict_price(area, bhk, bath, description):
-    model, vectorizer = load_artifacts()
-    text_vec = vectorizer.transform([description])
-    numeric_features = np.array([[area, bhk, bath]])
-    X = hstack([text_vec, numeric_features])
-    return float(model.predict(X)[0])
+    pipeline = joblib.load(PIPELINE_PATH)
+    df_input = pd.DataFrame([{
+        "area": area,
+        "bhk": bhk,
+        "bath": bath,
+        "description": description
+    }])
+    price = pipeline.predict(df_input)[0]
+    return float(price)
 
 if __name__ == "__main__":
     sample_input = {
